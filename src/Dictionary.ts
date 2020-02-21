@@ -7,7 +7,7 @@ interface IDictionary<T> {
     values(): T[];
   }
 
-  class Dictionary<T> implements IDictionary<T> {
+  export class Dictionary<T> implements IDictionary<T> {
 
     _keys: string[] = [];
     _values: T[] = [];

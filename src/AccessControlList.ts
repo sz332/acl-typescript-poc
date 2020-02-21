@@ -1,5 +1,6 @@
 import { AclPropectedResource } from "./AclProtectedResource";
 import { Identity } from "./Identity";
+import { Dictionary } from "./Dictionary";
 
 export class AccessControlList implements AclPropectedResource {
 
