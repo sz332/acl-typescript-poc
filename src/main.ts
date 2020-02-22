@@ -1,9 +1,22 @@
-import { User } from "./core/User"
-import { UserToken } from "./core/UserToken";
-import { Library } from "./library/Library";
-import { Document } from "./library/Document";
-import { SimpleEventBus } from "./events/SimpleEventBus";
-import { Permissions } from "./acl/Permissions";
+import { User } from './core/User';
+import { UserToken } from './core/UserToken';
+import { Library } from './library/Library';
+import { Document } from './library/Document';
+import { SimpleEventBus } from './events/SimpleEventBus';
+import { Permissions } from './acl/Permissions';
+
+function accessResource(token: UserToken, library: Library, resourceId: string) {
+  try {
+
+    console.log('Trying to access document with id = ' + token.id().id());
+
+    const resource = library.getResourceById(token, '1');
+
+    console.log('Document access granted, title = ' + resource.toString());
+  } catch (e) {
+    console.log('Unable to access document: access not allowed');
+  }
+}
 
 let eventBus = new SimpleEventBus();
 let library = new Library(eventBus);
@@ -24,53 +37,30 @@ let captureBatmanPlan = new Document('2', 'Capture Batman');
 library.addResource(jokerToken, escapePlan);
 library.addResource(jokerToken, captureBatmanPlan);
 
-try{
-    console.log('Trying to access document as Harley');
-    const document = library.getResourceById(harleyToken, '1');
-    console.log('Document accessed, title = ' + document.toString());
-} catch (e){
-    console.log('Harley was not able to access Joker\'s plan because she has no access right');
-}
+console.log("Harvey tries to access Joker's plan but fails...");
 
-console.log('Giving grant to Harley to access the escape plan');
+accessResource(harleyToken, library, '1');
+
+console.log('Joker is giving grant to Harley to access the escape plan');
+
 library.grantAccess(jokerToken, harley, escapePlan);
 
-try{
-    console.log('Trying to access document as Harley');
+console.log('Now Harvey can access the plan');
 
-    const document = library.getResourceById(harleyToken, '1');
+accessResource(harleyToken, library, '1');
 
-    console.log('Document accessed, title = ' + document.toString());
-} catch (e){
-    console.log('Harley was not able to access Joker\'s plan because she has no access right');
-}
+console.log('Now Bane wants to see the escape plan, but fails...');
 
-try{
-    console.log('Trying to access document as Bane');
+accessResource(baneToken, library, '1');
 
-    const document = library.getResourceById(baneToken, '1');
-
-    console.log('Document accessed, title = ' + document.toString());
-} catch (e){
-    console.log('Bane was not able to access Joker\'s plan because he has no access right');
-}
-
-console.log("Now Bane asks for the escape plan");
+console.log('Now Bane asks for the escape plan');
 
 library.requestAccess(baneToken, escapePlan);
 
-console.log("Joker checks the requests and accepts it");
+console.log('Joker checks the requests and accepts it');
 
 let accessRequests = jokersPermissions.accessRequestList();
 const accessRequestId = accessRequests[0].id;
 jokersPermissions.acceptAccessRequest(accessRequestId);
 
-try{
-    console.log('Trying to access document as Bane');
-
-    const document = library.getResourceById(baneToken, '1');
-
-    console.log('Bane also accessed the document, title = ' + document.toString());
-} catch (e){
-    console.log('Bane was not able to access Joker\'s plan because he has no access right');
-}
+accessResource(baneToken, library, '1');

@@ -1,4 +1,4 @@
-import { AclProtectedResource } from "src/acl/AclProtectedResource";
+import { AclProtectedResource } from "../acl/AclProtectedResource";
 import { EventBus } from "../events/EventBus";
 import { Document } from "./Document";
 
