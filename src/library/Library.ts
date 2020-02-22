@@ -41,6 +41,8 @@ export class Library implements AclPropectedResource, EventListener {
         this.eventBus.subscribe(this);
     }
 
+    // FIXME this is pretty generic, and could be moved into a separate class for composition
+
     onEventArrived(event: Event) {
 
         if (event instanceof ResourceAccessRequestAcceptEvent) {
@@ -58,8 +60,10 @@ export class Library implements AclPropectedResource, EventListener {
     }
 
     private handleRejectEvent(event: ResourceAccessRequestRejectEvent) {
-        // DO NOTHING?
+        // DO WHAT?
     }
+
+    // UNTIL THIS POINT
 
     addDocument(token: Token, document: Document) {
         this.documents.push(document);
