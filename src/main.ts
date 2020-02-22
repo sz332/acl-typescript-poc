@@ -3,12 +3,14 @@ import { UserToken } from "./core/UserToken";
 import { Library } from "./library/Library";
 import { Document } from "./library/Document";
 import { SimpleEventBus } from "./events/SimpleEventBus";
+import { Permissions } from "./acl/Permissions";
 
 let eventBus = new SimpleEventBus();
 let library = new Library(eventBus);
 
 let joker = new User('Joker');
 let jokerToken = new UserToken(joker);
+let jokersPermissions = new Permissions(joker, eventBus);
 
 let harley = new User('Harley Quinn');
 let harleyToken = new UserToken(harley);
@@ -53,7 +55,17 @@ console.log("Now Bane asks for the escape plan");
 
 library.requestAccess(baneToken, escapePlan);
 
+let accessRequests = jokersPermissions.accessRequestList();
+const accessRequestId = accessRequests[0].id;
+jokersPermissions.acceptAccessRequest(accessRequestId);
 
+try{
+    console.log('Trying to access document as Bane');
+    const document = library.getDocumentById(baneToken, '1');
+    console.log('Bane also accessed the document, title = ' + document.toString());
+} catch (e){
+    console.log('Bane was not able to access Joker\'s plan because he has no access right');
+}
 
 // library.grantAccess(user, firstBook);
 

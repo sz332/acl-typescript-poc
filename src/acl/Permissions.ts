@@ -8,7 +8,7 @@ import { ResourceAccessRequestRejectEvent } from "src/events/ResourceAccessReque
 
 export class AccessRequest {
 
-    id: String;
+    id: string;
     resource: Identity;
     claimer: Identity;
 
