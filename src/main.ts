@@ -6,14 +6,26 @@ import { SimpleEventBus } from "./events/SimpleEventBus";
 let eventBus = new SimpleEventBus();
 let library = new Library(eventBus);
 
-let user = new User('John Doe');
-let userToken = new UserToken(user);
+let joker = new User('Joker');
+let jokerToken = new UserToken(joker);
 
-let firstBook = new Document('1', 'First book');
-let secondBook = new Document('2', 'Second book');
+let harley = new User('Harley Quinn');
+let harleyToken = new UserToken(harley);
 
-library.addDocument(userToken, firstBook);
-library.addDocument(userToken, secondBook);
+let bane = new User('Bane');
+let baneToken = new UserToken(bane);
+
+let escapePlan = new Document('1', 'Escape from Arkham');
+let capturePlan = new Document('2', 'Capture Batman');
+
+library.addDocument(jokerToken, escapePlan);
+library.addDocument(jokerToken, capturePlan);
+
+try{
+    library.getDocumentById(harleyToken, '1');
+} catch (e){
+    console.log("Harley was not able to access Joker's plan because she has no access right");
+}
 
 // library.grantAccess(user, firstBook);
 
