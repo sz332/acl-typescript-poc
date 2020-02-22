@@ -1,12 +1,16 @@
 import { EventBus } from "./EventBus";
+import { Event } from "./Event";
+import { EventListener } from "./EventListener";
 
 export class SimpleEventBus implements EventBus{
 
-    subscribe(listener: import("./EventListener").EventListener): void {
+    
+
+    subscribe(listener: EventListener): void {
         throw new Error("Method not implemented.");
     }    
     
-    push(event: import("./Event").Event): void {
+    handle(event: Event): void {
         throw new Error("Method not implemented.");
     }
 

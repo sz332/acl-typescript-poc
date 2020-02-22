@@ -4,6 +4,7 @@ import { Document } from "./Document";
 import { AccessControlList } from "../acl/AccessControlList";
 import { Token } from "../acl/Token";
 import { EventBus } from "../events/EventBus";
+import { ResourceAccessRequestEvent } from "src/events/ResourceAccessRequestEvent";
 
 class DocumentIdentity implements Identity {
 
@@ -50,10 +51,7 @@ export class Library implements AclPropectedResource {
     }
 
     requestAccess(token: Token, resource: Identity): void {
-
-        
-
-        throw new Error("Method not implemented.");
+        this.eventBus.handle(new ResourceAccessRequestEvent(token, resource));    
     }
 
     grantAccess(token: Token, identity: Identity, resource: Identity): void {
