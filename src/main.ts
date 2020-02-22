@@ -37,7 +37,9 @@ library.grantAccess(jokerToken, harley, escapePlan);
 
 try{
     console.log('Trying to access document as Harley');
+
     const document = library.getDocumentById(harleyToken, '1');
+
     console.log('Document accessed, title = ' + document.toString());
 } catch (e){
     console.log('Harley was not able to access Joker\'s plan because she has no access right');
@@ -45,7 +47,9 @@ try{
 
 try{
     console.log('Trying to access document as Bane');
+
     const document = library.getDocumentById(baneToken, '1');
+
     console.log('Document accessed, title = ' + document.toString());
 } catch (e){
     console.log('Bane was not able to access Joker\'s plan because he has no access right');
@@ -63,18 +67,10 @@ jokersPermissions.acceptAccessRequest(accessRequestId);
 
 try{
     console.log('Trying to access document as Bane');
+
     const document = library.getDocumentById(baneToken, '1');
+
     console.log('Bane also accessed the document, title = ' + document.toString());
 } catch (e){
     console.log('Bane was not able to access Joker\'s plan because he has no access right');
 }
-
-// library.grantAccess(user, firstBook);
-
-// let book1 = library.getDocumentById(user,"1");
-
-// console.log("first book = " + book1.toString());
-
-// let book2 = library.getDocumentById(user, "2");
-
-// console.log("second book = " + book2.toString()); 
