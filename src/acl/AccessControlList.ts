@@ -82,7 +82,7 @@ export class AccessControlList {
         }
 
         let accessList = this.acl.value(resourceId);
-        accessList.add(resource);
+        accessList.add(identity);
     }
 
     revokeAccess(identity: Identity, resource: Identity): void {

@@ -4,14 +4,18 @@ import { EventListener } from "./EventListener";
 
 export class SimpleEventBus implements EventBus{
 
-    
+    private readonly listeners: Array<EventListener>;
 
-    subscribe(listener: EventListener): void {
-        throw new Error("Method not implemented.");
-    }    
+    constructor(){
+        this.listeners = new Array<EventListener>();
+    }
     
+    subscribe(listener: EventListener): void {
+        this.listeners.push(listener);
+    }    
+
     handle(event: Event): void {
-        throw new Error("Method not implemented.");
+        this.listeners.forEach( listener => listener.onEventArrived(event));
     }
 
 }
