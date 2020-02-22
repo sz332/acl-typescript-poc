@@ -5,7 +5,7 @@ import { AccessControlList } from "../acl/AccessControlList";
 import { Token } from "../acl/Token";
 import { EventBus } from "../events/EventBus";
 import { ResourceAccessRequestEvent } from "../events/ResourceAccessRequestEvent";
-import {EventListener} from "../events/EventListener";
+import { EventListener } from "../events/EventListener";
 import { ResourceAccessRequestAcceptEvent } from "src/events/ResourceAccessRequestAcceptEvent";
 import { ResourceAccessRequestRejectEvent } from "src/events/ResourceAccessRequestRejectEvent";
 
@@ -40,25 +40,23 @@ export class Library implements AclPropectedResource, EventListener {
     }
 
     onEventArrived(event: Event) {
-        
-        if (event instanceof ResourceAccessRequestAcceptEvent){
+
+        if (event instanceof ResourceAccessRequestAcceptEvent) {
             this.handleAcceptEvent(event as ResourceAccessRequestAcceptEvent);
-        } else if (event instanceof ResourceAccessRequestRejectEvent){
+        } else if (event instanceof ResourceAccessRequestRejectEvent) {
             this.handleRejectEvent(event as ResourceAccessRequestRejectEvent);
         }
-        
+
     }
 
-    private handleAcceptEvent(event : ResourceAccessRequestAcceptEvent){
-        if (!this.acl.hasResource(event.getResource())){
-            throw new Error("Library does not contain resource");
+    private handleAcceptEvent(event: ResourceAccessRequestAcceptEvent) {
+        if (this.acl.hasResource(event.getResource()) && this.acl.isOwner(event.getOwner(), event.getResource())) {
+            this.acl.grantAccess(event.getClaimer(), event.getResource());
         }
-
-        
     }
 
-    private handleRejectEvent(event : ResourceAccessRequestRejectEvent){
-
+    private handleRejectEvent(event: ResourceAccessRequestRejectEvent) {
+        // DO NOTHING?
     }
 
     addDocument(token: Token, document: Document) {
@@ -77,7 +75,7 @@ export class Library implements AclPropectedResource, EventListener {
 
     requestAccess(token: Token, resource: Identity): void {
         const owner = this.acl.getOwner(resource);
-        this.eventBus.handle(new ResourceAccessRequestEvent(owner, token.id(), resource));    
+        this.eventBus.handle(new ResourceAccessRequestEvent(owner, token.id(), resource));
     }
 
     grantAccess(token: Token, identity: Identity, resource: Identity): void {

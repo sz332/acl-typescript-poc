@@ -15,6 +15,10 @@ class AccessList {
         return this.owner;
     }
 
+    isOwner(identity: Identity): boolean{
+        return this.owner.equalsTo(identity);
+    }
+
     add(identity: Identity): void {
         this.grants.push(identity);
     }
@@ -51,6 +55,11 @@ export class AccessControlList {
 
     constructor() {
         this.acl = new Dictionary<AccessList>();
+    }
+
+    isOwner(claimer: Identity, resource: Identity): boolean {
+        let resourceOwner = this.getOwner(resource);
+        return resourceOwner.equalsTo(claimer);
     }
 
     getOwner(resource: Identity): Identity {
