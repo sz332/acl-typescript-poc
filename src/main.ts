@@ -1,22 +1,26 @@
-import { User } from "./User"
-import { Library } from "./Library";
-import { Document } from "./Document";
+import { User, UserToken } from "./User"
+import { Library } from "./library/Library";
+import { Document } from "./library/Document";
+import { SimpleEventBus } from "./events/SimpleEventBus";
+
+let eventBus = new SimpleEventBus();
+let library = new Library(eventBus);
 
 let user = new User('John Doe');
-let library = new Library();
+let userToken = new UserToken(user);
 
 let firstBook = new Document('1', 'First book');
 let secondBook = new Document('2', 'Second book');
 
-library.addDocument(firstBook);
-library.addDocument(secondBook);
+library.addDocument(userToken, firstBook);
+library.addDocument(userToken, secondBook);
 
-library.grantAccess(user, firstBook);
+// library.grantAccess(user, firstBook);
 
-let book1 = library.getDocumentById(user,"1");
+// let book1 = library.getDocumentById(user,"1");
 
-console.log("first book = " + book1.toString());
+// console.log("first book = " + book1.toString());
 
-let book2 = library.getDocumentById(user, "2");
+// let book2 = library.getDocumentById(user, "2");
 
-console.log("second book = " + book2.toString());
+// console.log("second book = " + book2.toString()); 

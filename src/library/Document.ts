@@ -1,4 +1,4 @@
-import { Identity } from "./Identity";
+import { Identity } from "../acl/Identity";
 
 export class Document implements Identity {
 

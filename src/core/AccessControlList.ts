@@ -1,8 +1,9 @@
 import { AclPropectedResource } from "./AclProtectedResource";
-import { Identity } from "./Identity";
+import { Identity } from "../acl/Identity";
 import { Dictionary } from "./Dictionary";
+import { Token } from "../acl/Token";
 
-export class AccessControlList implements AclPropectedResource {
+export class AccessControlList {
 
     private readonly acl: Dictionary<Array<Identity>>;
 
@@ -23,19 +24,6 @@ export class AccessControlList implements AclPropectedResource {
         list.push(resource);
     }
 
-    hasAccess(identity: Identity, resource: Identity): boolean {
-        let id = identity.id();
-        let list = this.acl.value(id);
-
-        for (let i = 0; i < list.length; i++) {
-            if (list[i].id() === resource.id()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     revokeAccess(identity: Identity, resource: Identity): void {
         let id = identity.id();
         let list = this.acl.value(id);
@@ -49,7 +37,17 @@ export class AccessControlList implements AclPropectedResource {
     }
 
 
+    hasAccess(identity: Identity, resource: Identity): boolean {
+        let id = identity.id();
+        let list = this.acl.value(id);
 
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].id() === resource.id()) {
+                return true;
+            }
+        }
 
+        return false;
+    }
 
 }
