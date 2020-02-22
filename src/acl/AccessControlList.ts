@@ -11,7 +11,7 @@ class AccessList {
         this.grants = new Array<Identity>();
     }
 
-    getOwner(): Identity{
+    getOwner(): Identity {
         return this.owner;
     }
 
@@ -86,6 +86,11 @@ export class AccessControlList {
         let resourceId = resource.id();
         let accessList = this.acl.value(resourceId);
         return accessList.hasAccess(identity);
+    }
+
+    hasResource(resource: Identity): boolean {
+        let resourceId = resource.id();
+        return this.acl.containsKey(resourceId);
     }
 
 }

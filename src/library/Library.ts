@@ -4,7 +4,10 @@ import { Document } from "./Document";
 import { AccessControlList } from "../acl/AccessControlList";
 import { Token } from "../acl/Token";
 import { EventBus } from "../events/EventBus";
-import { ResourceAccessRequestEvent } from "src/events/ResourceAccessRequestEvent";
+import { ResourceAccessRequestEvent } from "../events/ResourceAccessRequestEvent";
+import {EventListener} from "../events/EventListener";
+import { ResourceAccessRequestAcceptEvent } from "src/events/ResourceAccessRequestAcceptEvent";
+import { ResourceAccessRequestRejectEvent } from "src/events/ResourceAccessRequestRejectEvent";
 
 class DocumentIdentity implements Identity {
 
@@ -24,7 +27,7 @@ class DocumentIdentity implements Identity {
 
 }
 
-export class Library implements AclPropectedResource {
+export class Library implements AclPropectedResource, EventListener {
 
     private readonly eventBus: EventBus;
     private readonly documents: Array<Document>;
@@ -34,6 +37,28 @@ export class Library implements AclPropectedResource {
         this.eventBus = eventBus;
         this.documents = new Array<Document>();
         this.acl = new AccessControlList();
+    }
+
+    onEventArrived(event: Event) {
+        
+        if (event instanceof ResourceAccessRequestAcceptEvent){
+            this.handleAcceptEvent(event as ResourceAccessRequestAcceptEvent);
+        } else if (event instanceof ResourceAccessRequestRejectEvent){
+            this.handleRejectEvent(event as ResourceAccessRequestRejectEvent);
+        }
+        
+    }
+
+    private handleAcceptEvent(event : ResourceAccessRequestAcceptEvent){
+        if (!this.acl.hasResource(event.getResource())){
+            throw new Error("Library does not contain resource");
+        }
+
+        
+    }
+
+    private handleRejectEvent(event : ResourceAccessRequestRejectEvent){
+
     }
 
     addDocument(token: Token, document: Document) {

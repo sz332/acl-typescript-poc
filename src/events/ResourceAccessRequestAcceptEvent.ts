@@ -1,7 +1,7 @@
 import { Event } from "./Event";
 import { Identity } from "src/acl/Identity";
 
-export class ResourceAccessRequestEvent implements Event{
+export class ResourceAccessRequestAcceptEvent implements Event{
 
     private readonly owner: Identity;
     private readonly claimer: Identity;
@@ -24,5 +24,6 @@ export class ResourceAccessRequestEvent implements Event{
     getResource(): Identity {
         return this.resource;
     }
+
 
 }
