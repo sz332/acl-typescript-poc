@@ -34,9 +34,11 @@ export class Library implements AclPropectedResource, EventListener {
     private readonly acl: AccessControlList;
 
     constructor(eventBus: EventBus) {
-        this.eventBus = eventBus;
         this.documents = new Array<Document>();
         this.acl = new AccessControlList();
+
+        this.eventBus = eventBus;
+        this.eventBus.subscribe(this);
     }
 
     onEventArrived(event: Event) {
