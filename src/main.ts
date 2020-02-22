@@ -21,12 +21,12 @@ let baneToken = new UserToken(bane);
 let escapePlan = new Document('1', 'Escape from Arkham');
 let captureBatmanPlan = new Document('2', 'Capture Batman');
 
-library.addDocument(jokerToken, escapePlan);
-library.addDocument(jokerToken, captureBatmanPlan);
+library.addResource(jokerToken, escapePlan);
+library.addResource(jokerToken, captureBatmanPlan);
 
 try{
     console.log('Trying to access document as Harley');
-    const document = library.getDocumentById(harleyToken, '1');
+    const document = library.getResourceById(harleyToken, '1');
     console.log('Document accessed, title = ' + document.toString());
 } catch (e){
     console.log('Harley was not able to access Joker\'s plan because she has no access right');
@@ -38,7 +38,7 @@ library.grantAccess(jokerToken, harley, escapePlan);
 try{
     console.log('Trying to access document as Harley');
 
-    const document = library.getDocumentById(harleyToken, '1');
+    const document = library.getResourceById(harleyToken, '1');
 
     console.log('Document accessed, title = ' + document.toString());
 } catch (e){
@@ -48,7 +48,7 @@ try{
 try{
     console.log('Trying to access document as Bane');
 
-    const document = library.getDocumentById(baneToken, '1');
+    const document = library.getResourceById(baneToken, '1');
 
     console.log('Document accessed, title = ' + document.toString());
 } catch (e){
@@ -68,7 +68,7 @@ jokersPermissions.acceptAccessRequest(accessRequestId);
 try{
     console.log('Trying to access document as Bane');
 
-    const document = library.getDocumentById(baneToken, '1');
+    const document = library.getResourceById(baneToken, '1');
 
     console.log('Bane also accessed the document, title = ' + document.toString());
 } catch (e){
