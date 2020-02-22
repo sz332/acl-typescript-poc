@@ -18,4 +18,8 @@ export class Document implements Identity {
         return this._id + " = " + this._title;
     }
 
+    equalsTo(other: Identity): boolean {
+        return this._id === other.id();
+    }
+
 }

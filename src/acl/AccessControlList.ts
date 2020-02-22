@@ -1,51 +1,77 @@
 import { Identity } from "./Identity";
 import { Dictionary } from "../core/Dictionary";
 
-export class AccessControlList {
+class AccessList {
 
-    private readonly acl: Dictionary<Array<Identity>>;
+    private readonly owner: Identity;
+    private readonly grants: Array<Identity>;
 
-    constructor() {
-        this.acl = new Dictionary<Array<Identity>>();
+    constructor(owner: Identity) {
+        this.owner = owner;
+        this.grants = new Array<Identity>();
     }
 
-    grantAccess(identity: Identity, resource: Identity): void {
-
-        let id = identity.id();
-
-        if (!this.acl.containsKey(id)) {
-            let array = new Array<Identity>();
-            this.acl.add(id, array);
-        }
-
-        let list = this.acl.value(id);
-        list.push(resource);
+    add(identity: Identity): void {
+        this.grants.push(identity);
     }
 
-    revokeAccess(identity: Identity, resource: Identity): void {
-        let id = identity.id();
-        let list = this.acl.value(id);
-
-        for (let i = 0; i < list.length; i++) {
-            if (list[i].id() === resource.id()) {
-                list.splice(i, 1);
+    remove(identity: Identity): void {
+        for (let i = 0; i < this.grants.length; i++) {
+            if (this.grants[i].equalsTo(identity)) {
+                this.grants.splice(i, 1);
                 return;
             }
         }
     }
 
+    hasAccess(identity: Identity): boolean {
+        if (this.owner.equalsTo(identity)) {
+            return true;
+        }
 
-    hasAccess(identity: Identity, resource: Identity): boolean {
-        let id = identity.id();
-        let list = this.acl.value(id);
-
-        for (let i = 0; i < list.length; i++) {
-            if (list[i].id() === resource.id()) {
+        for (let g of this.grants) {
+            if (g.equalsTo(identity)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+}
+
+
+export class AccessControlList {
+
+    private readonly acl: Dictionary<AccessList>;
+
+    constructor() {
+        this.acl = new Dictionary<AccessList>();
+    }
+
+    grantAccess(identity: Identity, resource: Identity): void {
+
+        let resourceId = identity.id();
+
+        if (!this.acl.containsKey(resourceId)) {
+            this.acl.add(resourceId, new AccessList(identity));
+        }
+
+        let list = this.acl.value(resourceId);
+        list.add(resource);
+    }
+
+    revokeAccess(identity: Identity, resource: Identity): void {
+        let resourceId = identity.id();
+        let list = this.acl.value(resourceId);
+        list.remove(identity);
+    }
+
+
+    hasAccess(identity: Identity, resource: Identity): boolean {
+        let resourceId = identity.id();
+        let list = this.acl.value(resourceId);
+        return list.hasAccess(identity);
     }
 
 }

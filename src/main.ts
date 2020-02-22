@@ -16,16 +16,43 @@ let bane = new User('Bane');
 let baneToken = new UserToken(bane);
 
 let escapePlan = new Document('1', 'Escape from Arkham');
-let capturePlan = new Document('2', 'Capture Batman');
+let captureBatmanPlan = new Document('2', 'Capture Batman');
 
 library.addDocument(jokerToken, escapePlan);
-library.addDocument(jokerToken, capturePlan);
+library.addDocument(jokerToken, captureBatmanPlan);
 
 try{
-    library.getDocumentById(harleyToken, '1');
+    console.log('Trying to access document as Harley');
+    const document = library.getDocumentById(harleyToken, '1');
+    console.log('Document accessed, title = ' + document.toString());
 } catch (e){
-    console.log("Harley was not able to access Joker's plan because she has no access right");
+    console.log('Harley was not able to access Joker\'s plan because she has no access right');
 }
+
+console.log('Giving grant to Harley to access the escape plan');
+library.grantAccess(jokerToken, harley, escapePlan);
+
+try{
+    console.log('Trying to access document as Harley');
+    const document = library.getDocumentById(harleyToken, '1');
+    console.log('Document accessed, title = ' + document.toString());
+} catch (e){
+    console.log('Harley was not able to access Joker\'s plan because she has no access right');
+}
+
+try{
+    console.log('Trying to access document as Bane');
+    const document = library.getDocumentById(baneToken, '1');
+    console.log('Document accessed, title = ' + document.toString());
+} catch (e){
+    console.log('Bane was not able to access Joker\'s plan because he has no access right');
+}
+
+console.log("Now Bane asks for the escape plan");
+
+library.requestAccess(baneToken, escapePlan);
+
+
 
 // library.grantAccess(user, firstBook);
 

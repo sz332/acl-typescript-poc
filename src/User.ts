@@ -16,6 +16,10 @@ export class User implements Identity {
         return this._id;
     }
 
+    equalsTo(other: Identity): boolean {
+        return this._id === other.id();
+    }
+
 }
 
 export class UserToken implements Token {
@@ -29,5 +33,9 @@ export class UserToken implements Token {
     id(): Identity {
         return this.user;
     }  
+
+    equalsTo(other: Identity): boolean {
+        return this.user.id() === other.id();
+    }
 
 }

@@ -17,6 +17,10 @@ class DocumentIdentity implements Identity {
         return this._id;
     }
 
+    equalsTo(other: Identity): boolean {
+        return this._id === other.id();
+    }
+
 }
 
 export class Library implements AclPropectedResource {
@@ -46,6 +50,9 @@ export class Library implements AclPropectedResource {
     }
 
     requestAccess(token: Token, resource: Identity): void {
+
+        
+
         throw new Error("Method not implemented.");
     }
 
