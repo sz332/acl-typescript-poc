@@ -51,7 +51,8 @@ export class Library implements AclPropectedResource {
     }
 
     requestAccess(token: Token, resource: Identity): void {
-        this.eventBus.handle(new ResourceAccessRequestEvent(token, resource));    
+        const owner = this.acl.getOwner(resource);
+        this.eventBus.handle(new ResourceAccessRequestEvent(owner, token.id(), resource));    
     }
 
     grantAccess(token: Token, identity: Identity, resource: Identity): void {

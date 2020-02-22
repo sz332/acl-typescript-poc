@@ -11,6 +11,10 @@ class AccessList {
         this.grants = new Array<Identity>();
     }
 
+    getOwner(): Identity{
+        return this.owner;
+    }
+
     add(identity: Identity): void {
         this.grants.push(identity);
     }
@@ -49,29 +53,39 @@ export class AccessControlList {
         this.acl = new Dictionary<AccessList>();
     }
 
+    getOwner(resource: Identity): Identity {
+        let resourceId = resource.id();
+
+        if (!this.acl.containsKey(resourceId)) {
+            throw new Error("Resource not found with id " + resourceId);
+        }
+
+        let accessList = this.acl.value(resourceId);
+        return accessList.getOwner();
+    }
+
     grantAccess(identity: Identity, resource: Identity): void {
 
-        let resourceId = identity.id();
+        let resourceId = resource.id();
 
         if (!this.acl.containsKey(resourceId)) {
             this.acl.add(resourceId, new AccessList(identity));
         }
 
-        let list = this.acl.value(resourceId);
-        list.add(resource);
+        let accessList = this.acl.value(resourceId);
+        accessList.add(resource);
     }
 
     revokeAccess(identity: Identity, resource: Identity): void {
-        let resourceId = identity.id();
-        let list = this.acl.value(resourceId);
-        list.remove(identity);
+        let resourceId = resource.id();
+        let accessList = this.acl.value(resourceId);
+        accessList.remove(identity);
     }
 
-
     hasAccess(identity: Identity, resource: Identity): boolean {
-        let resourceId = identity.id();
-        let list = this.acl.value(resourceId);
-        return list.hasAccess(identity);
+        let resourceId = resource.id();
+        let accessList = this.acl.value(resourceId);
+        return accessList.hasAccess(identity);
     }
 
 }

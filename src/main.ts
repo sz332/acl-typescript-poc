@@ -1,4 +1,5 @@
-import { User, UserToken } from "./User"
+import { User } from "./core/User"
+import { UserToken } from "./core/UserToken";
 import { Library } from "./library/Library";
 import { Document } from "./library/Document";
 import { SimpleEventBus } from "./events/SimpleEventBus";
