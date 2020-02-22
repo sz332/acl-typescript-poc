@@ -6,8 +6,8 @@ import { Token } from "../acl/Token";
 import { EventBus } from "../events/EventBus";
 import { ResourceAccessRequestEvent } from "../events/ResourceAccessRequestEvent";
 import { EventListener } from "../events/EventListener";
-import { ResourceAccessRequestAcceptEvent } from "src/events/ResourceAccessRequestAcceptEvent";
-import { ResourceAccessRequestRejectEvent } from "src/events/ResourceAccessRequestRejectEvent";
+import { ResourceAccessRequestAcceptEvent } from "../events/ResourceAccessRequestAcceptEvent";
+import { ResourceAccessRequestRejectEvent } from "../events/ResourceAccessRequestRejectEvent";
 
 class DocumentIdentity implements Identity {
 

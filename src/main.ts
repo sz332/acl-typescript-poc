@@ -55,6 +55,8 @@ console.log("Now Bane asks for the escape plan");
 
 library.requestAccess(baneToken, escapePlan);
 
+console.log("Joker checks the requests and accepts it");
+
 let accessRequests = jokersPermissions.accessRequestList();
 const accessRequestId = accessRequests[0].id;
 jokersPermissions.acceptAccessRequest(accessRequestId);

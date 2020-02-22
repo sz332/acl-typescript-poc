@@ -1,10 +1,10 @@
-import { User } from "src/core/User";
-import { EventBus } from "src/events/EventBus";
-import { ResourceAccessRequestEvent } from "src/events/ResourceAccessRequestEvent";
+import { User } from "../core/User";
+import { EventBus } from "../events/EventBus";
+import { ResourceAccessRequestEvent } from "../events/ResourceAccessRequestEvent";
 import { Identity } from "./Identity";
 import { uuid } from "uuidv4";
-import { ResourceAccessRequestAcceptEvent } from "src/events/ResourceAccessRequestAcceptEvent";
-import { ResourceAccessRequestRejectEvent } from "src/events/ResourceAccessRequestRejectEvent";
+import { ResourceAccessRequestAcceptEvent } from "../events/ResourceAccessRequestAcceptEvent";
+import { ResourceAccessRequestRejectEvent } from "../events/ResourceAccessRequestRejectEvent";
 
 export class AccessRequest {
 
