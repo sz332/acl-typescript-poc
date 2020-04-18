@@ -1,0 +1,3 @@
+# acl-typescript-poc
+
+An OOP like ACL POC written in typescript a morning...
